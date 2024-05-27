@@ -7,10 +7,7 @@ import cn.tjut.reflection.use.User;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 
 @Slf4j
@@ -109,6 +106,13 @@ public class ReflectionTest {
     public void testHashCode(){
         HashMap<String, String> map = new HashMap<>();
         map.put("key", "落雨既然");
+
+        int a = -7;
+        int b = 3;
+        int c = a % b;
+        System.out.println("使用%做取余结果：" + c);
+        c = Math.floorMod(-7 , 3);
+        System.out.println("使用floorMod()做取余结果：" + c);
     }
 
     @Test
@@ -127,5 +131,82 @@ public class ReflectionTest {
 
         System.out.println(map.get(null));
     }
+    @Test
+    public void testChar(){
+        System.out.println('z'-0);
+    }
 
+//    @Test
+//    public String test_ret_fin(){
+//
+//        try {
+//            throw new Exception();
+//        }catch (Exception e){
+//            System.out.println("catch");
+//            return "222222";
+//        }finally {
+//            System.out.println("finally");
+//        }
+//    }
+
+    @Test
+    public void testHashMod(){
+        HashMap<String, String> map = new HashMap<>();
+        map.put("chenmo", "沉默");
+        map.put("wanger", "王二");
+        map.put("chenqingyang", "陈清扬");
+        map.put("xiaozhuanling", "小转铃");
+        map.put("fangxiaowan", "方小婉");
+        for (String key : map.keySet()){
+            int h , n =16;
+            int hash = (key == null) ? 0 : (h = key.hashCode()) ^ (h >>> 16);
+            int i = (n-1) & hash; // 计算索引
+            System.out.println(i);
+        }
+    }
+
+    @Test
+    public  void testStringBuilder(){
+        StringBuilder sb = new StringBuilder();
+        sb.append('1');
+        System.out.println(sb);
+        Set<String> set = new HashSet<>();
+        set.add("222");
+        System.out.println(set.contains("222"));
+    }
+
+
+    @Test
+    public void  testFastFail(){
+        List<String> list = new ArrayList<>();
+        list.add("111");
+        list.add(("222"));
+        list.add("lyj");
+//        for(String temp : list){
+//            if(temp.equals("lyj")) list.remove(temp);
+//        }
+        Iterator<String> iterator = list.iterator();
+        System.out.println(iterator.next());
+    }
+
+    /**
+     * Optional对象的创建方式
+     */
+    @Test
+    public void test02(){
+        // 第一种方式 通过of方法  of方法是不支持null的
+        Optional<String> op1 = Optional.of("zhangsan");
+        System.out.println(op1);
+        //Optional<Object> op2 = Optional.of(null);
+
+        // 第二种方式通过 ofNullable方法 支持null
+        Optional<String> op3 = Optional.ofNullable("lisi");
+        Optional<Object> op4 = Optional.ofNullable(null);
+        System.out.println(op4);
+
+        // 第三种方式 通过empty方法直接创建一个空的Optional对象
+        Optional<Object> op5 = Optional.empty();
+        System.out.println(op5);
+
+    }
 }
